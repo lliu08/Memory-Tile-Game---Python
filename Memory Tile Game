@@ -1,0 +1,430 @@
+
+import pygame
+import time
+import random
+import decimal
+
+pygame.init()
+
+display_width = 900
+display_height = 750
+level2_boxsize = 130
+
+# colors
+black = (0,0,0)
+white = (255,255,255)
+red = (255,0,0)
+green = (0,255,0)
+blue = (0,0,255)
+yellow = (255,255,0)
+purple = (128,0,128)
+Cyan_Blue_Azure = (54,141,197)
+lavender = (230,230,250)
+silver_grey = (211,211,211)
+
+
+gameDisplay = pygame.display.set_mode((display_width,display_height))
+pygame.display.set_caption('''Memory Trainer''')
+clock = pygame.time.Clock()
+
+# background pics
+background = pygame.image.load('game_wallpaper_1_1366x768.jpg')
+backgroundGameLoop = pygame.image.load('game_wallpaper_6_1366x768.png')
+
+# base pics
+salt_image1 = pygame.image.load('salt_image1_150x150.jpg')
+old_birthday_cake_2 = pygame.image.load('old_birthday_cake_2_150x150.jpg')
+old_birthday_cake_1 = pygame.image.load('old_birthday_cake_1_150x150.jpg')
+
+# second level additonal pics
+salt_image2 = pygame.image.load('salt_image2_150x150.jpg')
+salt_image9 = pygame.image.load('salt_image9_150x150.jpg')
+
+bacon_image1 = pygame.image.load('bacon_1_150x150.jpg')
+pizza_image1 = pygame.image.load('pizza_1_150x150.jpg')
+taco_image1 = pygame.image.load('taco_1_150x150.jpg')
+
+
+##ocean = pygame.image.load('Ocean.jpg')
+### third level additonal pics
+##ants = pygame.image.load('Ants.jpg')
+##apples = pygame.image.load('Apples.jpg')
+##bees = pygame.image.load('Bees.jpg')
+
+gameIcon = pygame.image.load('ironman_logo.jpg')
+pygame.display.set_icon(gameIcon)
+
+def quitgame():
+    pygame.quit()
+
+def button(msg,x,y,w,h,ib_c,ab_c,it_c,at_c,action=None):  #setting for Start About button
+    pos = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+
+    if x+w > pos[0] > x and y+h > pos[1] > y:
+        pygame.draw.rect(gameDisplay, ab_c,(x,y,w,h))
+        text(msg,x+(w/2),y+(h/2),80,at_c,'game_over.ttf')
+        if click[0] == 1 and action != None:
+            action()
+    else:
+        pygame.draw.rect(gameDisplay, ib_c,(x,y,w,h))
+        text(msg,x+(w/2),y+(h/2),80,it_c,'game_over.ttf')
+
+
+
+def text(msg, x, y, size, color, font, sysfont = False):  #font for the text; message coordination, size, colour, font)
+    if sysfont:
+        font = pygame.font.SysFont(font,size)
+    else: font = pygame.font.Font(font,size)
+    TextSurf = font.render(msg, True, color)
+    TextRect = TextSurf.get_rect()
+    TextRect.center = ((x),(y))
+    gameDisplay.blit(TextSurf, TextRect)
+
+
+def about():
+    intro = True
+    while intro:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+        gameDisplay.blit(backgroundGameLoop, (00,00))
+# References to images used
+        text('WARNING',display_width/2,display_height/2 -270,50,red,'Athletic.ttf')
+        text('This game is designed to aid players',display_width/2,display_height/2 -200,38,red,'Athletic.ttf')
+        text('with early signs of memory loss.',display_width/2,display_height/2 -160,38,red,'Athletic.ttf')
+        text('Just kidding... LOL',display_width/2,display_height/2 -120,38,red,'Athletic.ttf')
+
+        text('---Here is the real message---',display_width/2,display_height/2 -70,38,purple,'hello_love.ttf')
+        text('Insert Message!',display_width/2,display_height/2 -20,28,black,'Dylan.ttf')
+        text(' Insert Message! ',display_width/2,display_height/2 +20,28,black,'Dylan.ttf')
+        text(' Insert Message! ', \
+            display_width/2,display_height/2 +60,28,black,'Dylan.ttf')
+        text('Insert Message!', \
+            display_width/2,display_height/2 +100,28,black,'Dylan.ttf')
+        text(' -Insert Message!',display_width/2,display_height/2 +160,28,black,'Dylan.ttf')
+
+
+        button("Back",(display_width/2)-100,(display_height/2)+190,200,100,silver_grey,red,red,white,game_intro)  #back to main menu
+
+        pygame.display.update()
+        clock.tick(30)
+
+def end_game():
+    #pygame.mixer.music.pause()
+    intro = True
+    while intro:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+        gameDisplay.blit(background, (00,00))
+        text('''Congratulation''',display_width/2,display_height/7-30,85,red,'HappyBirthday-Regular.ttf')
+        text('''You have at least a memory of ''',display_width/2,display_height/7+55,35,black,'Another Flight.otf')
+        text('''a 60 years old man. Not bad eh?''',display_width/2,display_height/7+95,35,black,'Another Flight.otf')
+        #text('By Author_Name',display_width/2,display_height/5,20,purple,'Short Baby.ttf')
+
+        button("Play Again",(display_width/2)-100,250,250,80,silver_grey,red,red,white,game_loop)
+        button("About",(display_width/2)-100,375,250,80,silver_grey,red,red,white,about)
+        button("Quit",(display_width/2)-100,500,250,80,silver_grey,red,red,white,quitgame)
+                                              #width and length of the boxes
+
+        pygame.display.update()
+        clock.tick(30)
+
+
+def game_intro():
+   #pygame.mixer.music.pause()
+    intro = True
+    while intro:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+        gameDisplay.blit(background, (00,00))
+        text('''Memory Trainer''',display_width/2,display_height/7,38,black,'ka1.ttf')
+        #text('By Author_Name',display_width/2,display_height/5,20,purple,'Short Baby.ttf')
+
+        button("Start Game",(display_width/2)-100,250,250,80,silver_grey,red,red,white,game_loop)
+        button("About",(display_width/2)-100,375,250,80,silver_grey,red,red,white,about)
+        button("Quit",(display_width/2)-100,500,250,80,silver_grey,red,red,white,quitgame)
+                                              #width and length of the boxes
+
+        pygame.display.update()
+        clock.tick(30)
+
+def check_same(tile, choosen):
+    l = []
+    for i in range(len(tile)):
+            if tile[i] == True:
+                l.append(choosen[i])
+    if len(l) == 2:
+        return len(list(set(l))) != len(l)
+    if len(l) == 4:
+        return len(list(set(l))) != len(l) - 1
+    elif len(l) == 6:
+        return len(list(set(l))) != len(l) - 2
+    elif len(l) == 8:
+        return len(list(set(l))) != len(l) - 3
+    elif len(l) == 10:
+        return len(list(set(l))) != len(l) - 4
+    elif len(l) == 12:
+        return len(list(set(l))) != len(l) - 5
+    elif len(l) == 14:
+        return len(list(set(l))) != len(l) - 6
+    else:
+        return len(list(set(l))) != len(l) - 7
+
+def l_random(level = 1):
+    # 3 x 2
+    # 4 x 4
+    l=[[salt_image1,old_birthday_cake_1,old_birthday_cake_2],\
+        [salt_image1,salt_image2,salt_image9,old_birthday_cake_1,old_birthday_cake_2, \
+        bacon_image1, pizza_image1, taco_image1]]
+    l_final =[]
+    while len(l_final) != len(l[level-1])*2:
+        choice = l[level-1][random.randint(0,len(l[level-1])-1)]
+        if l_final.count(choice) <= 1 : l_final.append(choice)
+    return l_final
+
+def game_loop(level = 1, oldchoosen = None, oldtile = None, old_x = None):
+    #pygame.mixer.music.unpause()
+    choosen = None
+    time.sleep(0.1)
+    if old_x != None:
+        x = old_x
+    else:
+        x = 1
+    Won = None
+    gameExit = False
+    if oldtile != None:
+        tile = oldtile[:]
+    else:
+        tile = [False, False, False, False, False, False, False, False, \
+            False, False, False, False, False, False, False, False]
+    tile1 = tile[0]
+    tile2 = tile[1]
+    tile3 = tile[2]
+    tile4 = tile[3]
+    tile5 = tile[4]
+    tile6 = tile[5]
+    tile7 = tile[6]
+    tile8 = tile[7]
+    tile9 = tile[8]
+    tile10 = tile[9]
+    tile11 = tile[10]
+    tile12 = tile[11]
+    tile13 = tile[12]
+    tile14 = tile[13]
+    tile15 = tile[14]
+    tile16 = tile[15]
+
+    if oldchoosen != None:
+        choosen = oldchoosen[:]
+    else:
+        choosen = l_random(level)
+    while not gameExit:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+
+        if level == 1:
+            gameDisplay.blit(backgroundGameLoop,(0,0))
+            text('Level 1',display_width/2,display_height/8,35,purple,'Minecrafter.Reg.ttf')  #The font that shows the level
+            text('Suitable for players 70+',display_width/2,display_height/8 +40,30,black,'Another Flight.otf')
+            gameDisplay.blit(choosen[0],(200,250)) #x,y  #this is the coordination of the pictures
+            gameDisplay.blit(choosen[1],(350,250)) #x,y  #this is the coordination of the pictures
+            gameDisplay.blit(choosen[2],(500,250))
+            gameDisplay.blit(choosen[3],(200,400))
+            gameDisplay.blit(choosen[4],(350,400))
+            gameDisplay.blit(choosen[5],(500,400))
+            #gameDisplay.blit(choosen[0],(100,250)) #x,y  #this is the coordination of the pictures
+            #gameDisplay.blit(choosen[1],(300,250)) #x,y  #this is the coordination of the pictures
+            #gameDisplay.blit(choosen[2],(500,250))
+            #gameDisplay.blit(choosen[3],(100,450))
+            #gameDisplay.blit(choosen[4],(300,450))
+            #gameDisplay.blit(choosen[5],(500,450))
+        elif level == 2:
+            gameDisplay.blit(backgroundGameLoop,(0,0))
+            text('Level 2',display_width/2,display_height/12,35,purple,'Minecrafter.Reg.ttf') #The font that shows the level
+            text('Suitable for players 60+',display_width/2,display_height/12 + 35,26,black,'Another Flight.otf')
+            gameDisplay.blit(pygame.transform.scale(choosen[0], (level2_boxsize, level2_boxsize)),(display_width/2-level2_boxsize*2,display_height/2+20-level2_boxsize*2)) #row 1 - 1
+            gameDisplay.blit(pygame.transform.scale(choosen[1], (level2_boxsize, level2_boxsize)),(display_width/2-level2_boxsize,display_height/2+20-level2_boxsize*2)) #row 1 - 2
+            gameDisplay.blit(pygame.transform.scale(choosen[2], (level2_boxsize, level2_boxsize)),(display_width/2,display_height/2+20-level2_boxsize*2)) #row 1 - 3
+            gameDisplay.blit(pygame.transform.scale(choosen[3], (level2_boxsize, level2_boxsize)),(display_width/2+level2_boxsize,display_height/2+20-level2_boxsize*2)) #row 1 - 4
+            gameDisplay.blit(pygame.transform.scale(choosen[4], (level2_boxsize, level2_boxsize)),(display_width/2-level2_boxsize*2,display_height/2+20-level2_boxsize))#row 2 - 1
+            gameDisplay.blit(pygame.transform.scale(choosen[5], (level2_boxsize, level2_boxsize)),(display_width/2-level2_boxsize,display_height/2+20-level2_boxsize)) #row 2 - 2
+            gameDisplay.blit(pygame.transform.scale(choosen[6], (level2_boxsize, level2_boxsize)),(display_width/2,display_height/2+20-level2_boxsize)) #row 2 - 3
+            gameDisplay.blit(pygame.transform.scale(choosen[7], (level2_boxsize, level2_boxsize)),(display_width/2+level2_boxsize,display_height/2+20-level2_boxsize)) #row 2 - 4
+            gameDisplay.blit(pygame.transform.scale(choosen[8], (level2_boxsize, level2_boxsize)),(display_width/2-level2_boxsize*2,display_height/2+20)) #row 3 -1
+            gameDisplay.blit(pygame.transform.scale(choosen[9], (level2_boxsize, level2_boxsize)),(display_width/2-level2_boxsize,display_height/2+20)) #row 3 - 2
+            gameDisplay.blit(pygame.transform.scale(choosen[10], (level2_boxsize, level2_boxsize)),(display_width/2,display_height/2+20))#row 3 -3
+            gameDisplay.blit(pygame.transform.scale(choosen[11], (level2_boxsize, level2_boxsize)),(display_width/2+level2_boxsize,display_height/2+20)) #row 3 - 4
+            gameDisplay.blit(pygame.transform.scale(choosen[12], (level2_boxsize, level2_boxsize)),(display_width/2-level2_boxsize*2,display_height/2+level2_boxsize+20)) #row 4 - 1
+            gameDisplay.blit(pygame.transform.scale(choosen[13], (level2_boxsize, level2_boxsize)),(display_width/2-level2_boxsize,display_height/2+level2_boxsize+20)) #row 4 - 2
+            gameDisplay.blit(pygame.transform.scale(choosen[14], (level2_boxsize, level2_boxsize)),(display_width/2,display_height/2+level2_boxsize+20)) #row 4 - 3
+            gameDisplay.blit(pygame.transform.scale(choosen[15], (level2_boxsize, level2_boxsize)),(display_width/2+level2_boxsize,display_height/2+level2_boxsize+20)) #row 4 - 4
+
+        else:
+            pass
+
+        if (Won == True):
+            time.sleep(0.6)
+            if level == 1 and tile.count(True) == 6:
+                #text('Happy Birthday!',display_width/2,display_height/1.15,30,red,'HappyBirthday-Regular.ttf')
+                #text('''Let's go to the next level!''',display_width/2,display_height/1.15,40,black,'coolvetica rg.ttf')
+                #time.sleep(1.0)
+                game_loop(2)
+            elif level == 2 and tile.count(True) == 16:  #loop is here after winning the second hame
+                #text('Congratulation!!! Your memory is just as young as a 60 years old man!',display_width/2,display_height/1.15,30,lavender,'PartybyTom.ttf')
+                #game_intro()                             #loop is here after winning the second hame
+                end_game()
+
+                pygame.display.update()
+                clock.tick(30)
+
+            game_loop(level, choosen, tile, x)
+            Won = None
+        if (Won == False):
+            time.sleep(0.6)
+            game_loop(level, choosen)
+
+        pos = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()
+
+        if level == 1:  #where the mouse is clicking
+        #row1   x_f            x_i    y_f            y_i
+            if 350 > pos[0] > 200 and 350 > pos[1] > 200 and click[0] == 1:
+                 tile1 = True
+            if 500 > pos[0] > 350 and 350 > pos[1] > 200 and click[0] == 1:
+                 tile2 = True
+            if 650 > pos[0] > 500 and 350 > pos[1] > 200 and click[0] == 1:
+                 tile3 = True
+            #row 2
+            if 350 > pos[0] > 200 and 500 > pos[1] > 350 and click[0] == 1:
+                 tile4 = True
+            if 500 > pos[0] > 350 and 500 > pos[1] > 350 and click[0] == 1:
+                 tile5 = True
+            if 650 > pos[0] > 500 and 500 > pos[1] > 350 and click[0] == 1:
+                 tile6 = True
+
+        elif level == 2:
+            #row 1
+            if display_width/2-level2_boxsize > pos[0] > display_width/2-level2_boxsize*2 and display_height-level2_boxsize*4 + 20 > pos[1] > display_height-level2_boxsize*5 + 20 and click[0] == 1:
+                 tile1 = True
+            if display_width/2 > pos[0] > display_width/2-level2_boxsize  and display_height-level2_boxsize*4 + 20 > pos[1] > display_height-level2_boxsize*5 + 20 and click[0] == 1:
+                 tile2 = True
+            if display_width/2+level2_boxsize > pos[0] > display_width/2 and display_height-level2_boxsize*4  + 20 > pos[1] > display_height-level2_boxsize*5  + 20 and click[0] == 1:
+                 tile3 = True
+            if display_width/2+level2_boxsize*2 > pos[0] > display_width/2+level2_boxsize and display_height-level2_boxsize*4 + 20 > pos[1] > display_height-level2_boxsize*5 + 20 and click[0] == 1:
+                tile4 = True
+            #row2
+            if display_width/2-level2_boxsize > pos[0] > display_width/2-level2_boxsize*2 and display_height-level2_boxsize*3 + 20 > pos[1] > display_height-level2_boxsize*4 +20 and click[0] == 1:
+                 tile5 = True
+            if display_width/2 > pos[0] > display_width/2-level2_boxsize and display_height-level2_boxsize*3 + 20 > pos[1] > display_height-level2_boxsize*4 + 20 and click[0] == 1:
+                 tile6 = True
+            if display_width/2+level2_boxsize > pos[0] > display_width/2 and display_height-level2_boxsize*3 + 20 > pos[1] > display_height-level2_boxsize*4 + 20 and click[0] == 1:
+                tile7 = True
+            if display_width/2+level2_boxsize*2 > pos[0] > display_width/2+level2_boxsize and display_height-level2_boxsize*3 +20 > pos[1] > display_height-level2_boxsize*4 + 20 and click[0] == 1:
+                tile8 = True
+            #row3
+            if display_width/2-level2_boxsize > pos[0] > display_width/2-level2_boxsize*2 and display_height-level2_boxsize*2 + 20 > pos[1] > display_height-level2_boxsize*3 +20 and click[0] == 1:
+                 tile9 = True
+            if display_width/2 > pos[0] > display_width/2-level2_boxsize  and display_height-level2_boxsize*2 +20 > pos[1] > display_height-level2_boxsize*3 + 20 and click[0] == 1:
+                 tile10 = True
+            if display_width/2+level2_boxsize > pos[0] > display_width/2 and display_height-level2_boxsize*2 +20 > pos[1] > display_height-level2_boxsize*3 +20 and click[0] == 1:
+                tile11 = True
+            if display_width/2+level2_boxsize*2 > pos[0] > display_width/2+level2_boxsize and display_height-level2_boxsize*2 + 20 > pos[1] > display_height-level2_boxsize*3 +20 and click[0] == 1:
+                tile12= True
+
+            #row 4
+            if display_width/2-level2_boxsize > pos[0] > display_width/2-level2_boxsize*2 and display_height-level2_boxsize +20 > pos[1] > display_height-level2_boxsize*2  +20 and click[0] == 1:
+                 tile13 = True
+            if display_width/2 > pos[0] > display_width/2-level2_boxsize and display_height-level2_boxsize + 20 > pos[1] > display_height-level2_boxsize*2 + 20 and click[0] == 1:
+                 tile14 = True
+            if display_width/2+level2_boxsize > pos[0] > display_width/2 and display_height-level2_boxsize + 20  > pos[1] > display_height-level2_boxsize*2 + 20 and click[0] == 1:
+                 tile15 = True
+            if display_width/2+level2_boxsize*2 > pos[0] > display_width/2+level2_boxsize and display_height-level2_boxsize + 20 > pos[1] > display_height-level2_boxsize*2 + 20 and click[0] == 1:
+                tile16 = True
+
+            #tile 1 and 2 and 3 and 4, y-axis is wrong but x- axis is correct
+        else:
+            pass
+
+        tile = [tile1, tile2, tile3, tile4, tile5, tile6, tile7, tile8, \
+            tile9, tile10, tile11, tile12, tile13, tile14, tile15, tile16]
+        #print tile
+        if tile.count(True) > x:
+            if check_same(tile, choosen) == True:
+                if level == 1:
+                    text('Nice !!!',display_width/2,display_height/1.15,30,blue,'coolvetica rg.ttf')
+                else:
+                    text('Nice !!!',display_width/2,display_height/1.05,30,blue,'coolvetica rg.ttf')
+                Won = True
+                x += 2
+          ###########      #in level 1, if there is a match then error shows up  ###################
+            else:
+                if level == 1:
+                    text('Nope !!!',display_width/2,display_height/1.15,30,red,'coolvetica rg.ttf')
+                else:
+                    text('Nope !!!',display_width/2,display_height/1.05,30,red,'coolvetica rg.ttf')
+                Won = False
+
+
+        if level == 1: #this area is the white tile covers the picture
+            if not tile1: pygame.draw.rect(gameDisplay, white, (200,250,150,150)) #x,y,w,h, #level 1 boxes
+            if not tile2: pygame.draw.rect(gameDisplay, white, (350,250,150,150))
+            if not tile3: pygame.draw.rect(gameDisplay, white, (500,250,150,150))
+            if not tile4: pygame.draw.rect(gameDisplay, white, (200,400,150,150))
+            if not tile5: pygame.draw.rect(gameDisplay, white, (350,400,150,150))
+            if not tile6: pygame.draw.rect(gameDisplay, white, (500,400,150,150))
+
+        elif level == 2: #this area is the white tile covers the picture
+            if not tile1: pygame.draw.rect(gameDisplay, white, (display_width/2-level2_boxsize*2,display_height/2+20-level2_boxsize*2,level2_boxsize,level2_boxsize)) #row 1 tile 1
+            if not tile2: pygame.draw.rect(gameDisplay, white, (display_width/2-level2_boxsize,display_height/2+20-level2_boxsize*2,level2_boxsize,level2_boxsize)) #row 1 tile 2
+            if not tile3: pygame.draw.rect(gameDisplay, white, (display_width/2,display_height/2+20-level2_boxsize*2,level2_boxsize,level2_boxsize)) #row 1 tile 3
+            if not tile4: pygame.draw.rect(gameDisplay, white, (display_width/2+level2_boxsize,display_height/2+20-level2_boxsize*2,level2_boxsize,level2_boxsize)) #row 1 tile 4
+            if not tile5: pygame.draw.rect(gameDisplay, white, (display_width/2-level2_boxsize*2,display_height/2+20-level2_boxsize,level2_boxsize,level2_boxsize)) #row 2 tile 1
+            if not tile6: pygame.draw.rect(gameDisplay, white, (display_width/2-level2_boxsize,display_height/2+20-level2_boxsize,level2_boxsize,level2_boxsize)) #row 2 tile 2
+            if not tile7: pygame.draw.rect(gameDisplay, white, (display_width/2,display_height/2+20-level2_boxsize,level2_boxsize,level2_boxsize)) #row 2 tile 3
+            if not tile8: pygame.draw.rect(gameDisplay, white, (display_width/2+level2_boxsize,display_height/2+20-level2_boxsize,level2_boxsize,level2_boxsize)) #row 2 tile 4
+            if not tile9: pygame.draw.rect(gameDisplay, white, (display_width/2-level2_boxsize*2,display_height/2+20,level2_boxsize,level2_boxsize)) #row 3 tile 1
+            if not tile10: pygame.draw.rect(gameDisplay, white, (display_width/2-level2_boxsize,display_height/2+20,level2_boxsize,level2_boxsize)) #row 3 tile 2
+            if not tile11: pygame.draw.rect(gameDisplay, white, (display_width/2,display_height/2+20,level2_boxsize,level2_boxsize)) #row 3 tile 3
+            if not tile12: pygame.draw.rect(gameDisplay, white, (display_width/2+level2_boxsize,display_height/2+20,level2_boxsize,level2_boxsize)) #row 3 tile 4
+            if not tile13: pygame.draw.rect(gameDisplay, white, (display_width/2-level2_boxsize*2,display_height/2+20+level2_boxsize,level2_boxsize,level2_boxsize)) #row 4 tile 1
+            if not tile14: pygame.draw.rect(gameDisplay, white, (display_width/2-level2_boxsize,display_height/2+20+level2_boxsize,level2_boxsize,level2_boxsize)) #row 4 tile 2
+            if not tile15: pygame.draw.rect(gameDisplay, white, (display_width/2,display_height/2+20+level2_boxsize,level2_boxsize,level2_boxsize)) #row 4 tile 3
+            if not tile16: pygame.draw.rect(gameDisplay, white, (display_width/2+level2_boxsize,display_height/2+20+level2_boxsize,level2_boxsize,level2_boxsize)) #row 4 tile 4
+
+
+        if level == 1:  #this area is where it draws the black line around the white covers
+          # horizontal
+            pygame.draw.line(gameDisplay, black, (200,250),(650,250),5) #second part is the length of the line
+            pygame.draw.line(gameDisplay, black, (200,400),(650,400),5) #firsr () firs value is the starting point of the horizontal line
+            pygame.draw.line(gameDisplay, black, (200,550),(650,550),5) #second () first value is the lengh of the x line
+
+            # vertical
+            pygame.draw.line(gameDisplay, black, (200,250),(200,550),8) #second number is the starting point of the vertical line in y-axis
+            pygame.draw.line(gameDisplay, black, (350,250),(350,550),8) #first number is the starting point of the vertical line in x-axis
+            pygame.draw.line(gameDisplay, black, (500,250),(500,550),8) #forth number is the leghth og the line
+            pygame.draw.line(gameDisplay, black, (650,250),(650,550),8) #
+
+        elif level == 2:
+            # horizontal
+            pygame.draw.line(gameDisplay, black, (display_width/2-level2_boxsize*2,display_height/2+20-level2_boxsize*2),(level2_boxsize*5+60,display_height/2+20-level2_boxsize*2),8) #First set starting point of each x-axis
+            pygame.draw.line(gameDisplay, black, (display_width/2-level2_boxsize*2,display_height/2+20-level2_boxsize),(level2_boxsize*5+60,display_height/2+20-level2_boxsize),8) #second set: legth of each line and
+            pygame.draw.line(gameDisplay, black, (display_width/2-level2_boxsize*2,display_height/2+20),(level2_boxsize*5+60,display_height/2+20),8) # when (x,y) (x,y) and y = y then a straight horizontal line
+            pygame.draw.line(gameDisplay, black, (display_width/2-level2_boxsize*2,display_height/2+20+level2_boxsize),(level2_boxsize*5+60,display_height/2+20+level2_boxsize),8)
+            pygame.draw.line(gameDisplay, black, (display_width/2-level2_boxsize*2,display_height/2+20+level2_boxsize*2),(level2_boxsize*5+60,display_height/2+20+level2_boxsize*2),8)
+            # vertical
+            pygame.draw.line(gameDisplay, black, (display_width/2-level2_boxsize*2,display_height/2+20-level2_boxsize*2),(display_width/2-level2_boxsize*2,level2_boxsize*5+8),8) # when (x,y) (x,y) and x = x then a straight vertical line
+            pygame.draw.line(gameDisplay, black, (display_width/2-level2_boxsize,display_height/2+20-level2_boxsize*2),(display_width/2-level2_boxsize,level2_boxsize*5+8),8)
+            pygame.draw.line(gameDisplay, black, (display_width/2,display_height/2+20-level2_boxsize*2),(display_width/2,level2_boxsize*5+8),8)
+            pygame.draw.line(gameDisplay, black, (display_width/2+level2_boxsize,display_height/2+20-level2_boxsize*2),(display_width/2+level2_boxsize,level2_boxsize*5+8),8)
+            pygame.draw.line(gameDisplay, black, (display_width/2+level2_boxsize*2,display_height/2+20-level2_boxsize*2),(display_width/2+level2_boxsize*2,level2_boxsize*5+8),8)
+
+
+        pygame.display.update()
+        clock.tick(30)
+
+game_intro()
+pygame.quit()
