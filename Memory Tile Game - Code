@@ -45,12 +45,6 @@ pizza_image1 = pygame.image.load('pizza_1_150x150.jpg')
 taco_image1 = pygame.image.load('taco_1_150x150.jpg')
 
 
-##ocean = pygame.image.load('Ocean.jpg')
-### third level additonal pics
-##ants = pygame.image.load('Ants.jpg')
-##apples = pygame.image.load('Apples.jpg')
-##bees = pygame.image.load('Bees.jpg')
-
 gameIcon = pygame.image.load('ironman_logo.jpg')
 pygame.display.set_icon(gameIcon)
 
@@ -133,7 +127,6 @@ def end_game():
 
 
 def game_intro():
-   #pygame.mixer.music.pause()
     intro = True
     while intro:
         for event in pygame.event.get():
