@@ -1,0 +1,7 @@
+The purpose of this project was meant to be a funny birthday present. 
+I intentionally built it to look like an old school desktop game with Mario game as the background. 
+This game has two levels and the main task of this game is to match the pictures. 
+Every time the game is played, the pictures will distribute randomly and 
+before the player matches all the pictures, if he or she match one pair wrong, 
+all the picture will turn back to hidden/unrevealed. 
+Otherwise, if the pictures are matched, the pictures will stay reveled. 
